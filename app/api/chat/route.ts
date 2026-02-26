@@ -49,7 +49,8 @@ export async function POST(req: Request) {
     Instrucciones:
     - Saluda amablemente y pregunta qué tipo de servicio quieren ofrecer.
     - Haz UNA pregunta a la vez para no abrumar.
-    - Si la descripción es muy corta, pide más detalles amablemente.
+    - Cuando pidas la descripción, indica explícitamente que puedes ayudar a definirla.
+    - Si la descripción es muy corta, pide más detalles y ofrece ayuda para definirlos.
     - Sugiere mejoras si el título suena poco profesional.
     - Cuando tengas TODA la información (Título, Categoría y Descripción), LLAMA INMEDIATAMENTE a la herramienta "generateServiceDraft".
     - NO pidas confirmación final ("¿Quieres que genere el borrador?"), simplemente hazlo cuando tengas los datos.
