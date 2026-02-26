@@ -15,6 +15,22 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FTyCA - Gestión de Servicios a Terceros",
   description: "Sistema de Gestión de Servicios a Terceros de la Facultad de Tecnología y Ciencias Aplicadas",
+  icons: {
+    icon: [
+      {
+        url: "/logo_ftyca_256.png",
+        sizes: "256x256",
+        type: "image/png",
+      },
+      {
+        url: "/logo_ftyca_256.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/logo_ftyca_256.png",
+    apple: "/logo_ftyca_256.png",
+  },
 };
 
 export default function RootLayout({

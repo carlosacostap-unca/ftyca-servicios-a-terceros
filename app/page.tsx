@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { getPocketBaseClient } from "@/lib/pocketbase"
 
@@ -40,9 +41,14 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 text-white p-4">
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent pb-2">
-            Facultad de Tecnología y Ciencias Aplicadas
-          </h1>
+          <Image
+            src="/logo_ftyca.png"
+            alt="Facultad de Tecnología y Ciencias Aplicadas"
+            width={320}
+            height={320}
+            className="mx-auto max-h-64 w-auto h-auto object-contain"
+            priority
+          />
           <p className="mx-auto max-w-[700px] text-zinc-400 md:text-xl">
             Gestión de Servicios a Terceros
           </p>
