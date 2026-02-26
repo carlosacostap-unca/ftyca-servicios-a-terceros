@@ -20,6 +20,37 @@ export function ServiceList() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
 
+  const escapeHtml = (value: string) => {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;")
+  }
+
+  const renderMarkdown = (value: string) => {
+    const segments = value.split(/```/)
+    return segments
+      .map((segment, index) => {
+        if (index % 2 === 1) {
+          const code = escapeHtml(segment.trim())
+          return `<pre><code>${code}</code></pre>`
+        }
+        let html = escapeHtml(segment)
+        html = html.replace(/^### (.*)$/gm, "<h3>$1</h3>")
+        html = html.replace(/^## (.*)$/gm, "<h2>$1</h2>")
+        html = html.replace(/^# (.*)$/gm, "<h1>$1</h1>")
+        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        html = html.replace(/\*(?!\*)([^*]+?)\*(?!\*)/g, "<em>$1</em>")
+        html = html.replace(/`([^`]+)`/g, "<code>$1</code>")
+        html = html.replace(/^[-*]\s+/gm, "• ")
+        html = html.replace(/\n/g, "<br />")
+        return html
+      })
+      .join("")
+  }
+
   const loadServices = useCallback(async () => {
     const model = pb.authStore.model as { id?: string } | null
     if (!model?.id) {
@@ -89,9 +120,14 @@ export function ServiceList() {
                     {service.category}
                   </span>
                 </div>
-                <p className="text-zinc-400 mt-2 text-sm line-clamp-2">
-                  {service.description || "Sin descripción"}
-                </p>
+                <div
+                  className="text-zinc-400 mt-2 text-sm line-clamp-2"
+                  dangerouslySetInnerHTML={{
+                    __html: renderMarkdown(
+                      service.description?.trim() ? service.description : "Sin descripción"
+                    ),
+                  }}
+                />
                 <div className="mt-3 text-xs text-zinc-500">
                   Creado: {new Date(service.created).toLocaleDateString()}
                 </div>
