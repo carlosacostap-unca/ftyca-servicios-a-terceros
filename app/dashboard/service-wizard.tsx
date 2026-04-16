@@ -16,6 +16,7 @@ export function ServiceWizard() {
   const { messages, sendMessage, status } = useChat<DraftMessage>()
   
   const [input, setInput] = useState("")
+  const [mode, setMode] = useState<"ai" | "manual">("ai")
   const isLoading = status === "streaming"
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,15 +114,40 @@ export function ServiceWizard() {
   )
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Chat Section */}
-      <div className="bg-zinc-900 rounded-lg border border-zinc-800 flex flex-col h-[600px]">
-        <div className="p-4 border-b border-zinc-800 bg-zinc-950/50">
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <span className="text-blue-500">✨</span> Asistente IA
-          </h2>
-          <p className="text-xs text-zinc-400">Describe tu servicio y te ayudaré a redactarlo.</p>
-        </div>
+    <div className="space-y-6">
+      <div className="flex bg-zinc-900/50 p-1 rounded-lg border border-zinc-800 w-fit">
+        <button
+          onClick={() => setMode("ai")}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            mode === "ai" 
+              ? "bg-zinc-800 text-white shadow-sm" 
+              : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+          }`}
+        >
+          ✨ Asistente IA
+        </button>
+        <button
+          onClick={() => setMode("manual")}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            mode === "manual" 
+              ? "bg-zinc-800 text-white shadow-sm" 
+              : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+          }`}
+        >
+          ✍️ Ingreso Manual
+        </button>
+      </div>
+
+      {mode === "ai" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Chat Section */}
+          <div className="bg-zinc-900 rounded-lg border border-zinc-800 flex flex-col h-[600px]">
+            <div className="p-4 border-b border-zinc-800 bg-zinc-950/50">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <span className="text-blue-500">✨</span> Asistente IA
+              </h2>
+              <p className="text-xs text-zinc-400">Describe tu servicio y te ayudaré a redactarlo.</p>
+            </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.length === 0 && (
@@ -216,6 +242,12 @@ export function ServiceWizard() {
           </div>
         )}
       </div>
+        </div>
+      ) : (
+        <div className="max-w-2xl">
+          <ServiceForm />
+        </div>
+      )}
     </div>
   )
 }
